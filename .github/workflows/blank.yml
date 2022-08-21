@@ -3,6 +3,7 @@ on:
   repository_dispatch:
     types:
       - configuration-check
+      - config
 jobs:
   check:
     name: Run check
