@@ -4,6 +4,7 @@ on:
     types:
       - configuration-check
       - config
+  workflow_dispatch:
 jobs:
   check:
     name: Run check
@@ -12,3 +13,9 @@ jobs:
       - name: Say hello
         run: 'echo "${{ github.event.client_payload.app }}"'
       - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
+      - run: |
+          echo '$X' > hi.txt
+          envsubst < hi.txt
+          cat hi.txt
+        env:
+          X: "hello world"
