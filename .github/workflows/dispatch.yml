@@ -1,0 +1,42 @@
+name: 'Run Smoketests'
+
+on: 
+  workflow_dispatch:
+    inputs:
+      linode_token:
+        description: 'Linode access token'
+        required: true
+        default: 'xx'
+      github_username:
+        description: 'Github username'
+        required: true
+        default: 'xx'
+      github_token:
+        description: 'Github access token'
+        required: true
+        default: 'xx'
+      tags:
+        description: 'Tags to be associated with smoketests instance (separated by comma)'
+        default: "sedge, smoke-tests, merge"
+      ssh_keys:
+        default: ''
+      firewall_ips:
+        default: ''
+
+jobs:
+  smoketests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: running script
+      run: |
+        envsubst < merge-smoke-tests.tf.template
+      env:
+        GITHUB_USERNAME: ${{ inputs.github_username }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        LINODE_TOKEN: ${{ inputs.linode_token }}
+        SSH_KEYS: ${{ inputs.tags }}
+        TAGS: ${{ inputs.ssh_keys }}
+        FIREWALL_IPS: ${{ inputs.firewall_ips }}
+        
+ 
