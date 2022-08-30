@@ -1,0 +1,37 @@
+locals {
+  merge_tags = split(",", $TAGS)
+}
+
+module "$GITHUB_USERNAME-merge-smoke-tests" {
+  source = "./module"
+
+  linode_token   = var.linode_token
+  ssh_keys       = split(",", $SSH_KEYS)
+  region         = $REGION
+  firewalls_tags = local.merge_tags
+
+  monitor_label          = "${var.github_username}-core-mg-smtests-mntr"
+  monitor_branch         = "main"
+  monitor_github_user    = var.github_username
+  monitor_github_token   = var.github_token
+  monitor_api_port       = 8080
+  monitor_firewall_label = "${var.github_username}-core-mg-smtests-mntr-fw"
+  monitor_firewall_allowed_ips = split(",", $FIREWALL_IPS)
+  
+  monitor_tags        = local.merge_tags
+  monitor_script_file = "bash-scripts/run-monitor.sh"
+
+  nodes_label          = "${var.github_username}-core-mg-smtest-node"
+  nodes_firewall_label = "${var.github_username}-core-mg-smtest-nodes-fw"
+  nodes_script_file    = "bash-scripts/run-sedge.sh"
+  nodes_tags           = local.merge_tags
+  nodes_data = tolist(file("./nodes_scripts_data"))
+}
+
+output "${GITHUB_USERNAME}-merge_monitor_data" {
+  value = module.${GITHUB_USERNAME}-merge-smoke-tests.monitor_data
+}
+
+output "${GITHUB_USERNAME}-merge_nodes_data" {
+  value = module.${GITHUB_USERNAME}-merge-smoke-tests.nodes_data
+}
