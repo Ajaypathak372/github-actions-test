@@ -32,6 +32,8 @@ jobs:
       uses: actions/checkout@v3
     - name: running script
       run: |
+        python3 --version
+        python --version
         envsubst < merge-smoke-tests.tf.template
         mv merge-smoke-tests.tf.template merge-smoke-tests.tf
         cat merge-smoke-tests.tf
