@@ -40,7 +40,7 @@ jobs:
         envsubst < merge-smoke-tests.tf.template > merge-smoke-tests.tf
         cat merge-smoke-tests.tf
       env:
-        GITHUB_USERNAME: ${{ inputs.github_username }}
+        GITHUB_USERNAME: ${{ inputs.github_username || 'xx' }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
         LINODE_TOKEN: ${{ inputs.linode_token }}
         SSH_KEYS: ${{ inputs.tags }}
