@@ -36,10 +36,8 @@ jobs:
         python --version
         envsubst < merge-smoke-tests.tf.template > merge-smoke-tests.tf
         cat merge-smoke-tests.tf
-        echo ${{ inputs.github_username }} > x.txt
+        echo '::add-mask::${{ inputs.github_username }}' > x.txt
         cat x.txt
-        echo $GITHUB_USERNAME > y.txt
-        cat y.txt
       env:
         GITHUB_USERNAME: ${{ inputs.github_username || 'xx' }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
