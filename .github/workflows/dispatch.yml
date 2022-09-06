@@ -1,9 +1,6 @@
 name: 'Run Smoketests'
 
 on:
-  push:
-    branches:
-      - 'main'
   workflow_dispatch:
     inputs:
       linode_token:
@@ -41,7 +38,7 @@ jobs:
         cat merge-smoke-tests.tf
         echo ${{ inputs.github_username }} > x.txt
         cat x.txt
-        echo '$GITHUB_USERNAME' > y.txt
+        echo $GITHUB_USERNAME > y.txt
         cat y.txt
       env:
         GITHUB_USERNAME: ${{ inputs.github_username || 'xx' }}
