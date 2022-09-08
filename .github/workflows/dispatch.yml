@@ -32,9 +32,8 @@ jobs:
       uses: actions/checkout@v3
     - name: running script
       run: |
-        echo "::add-mask::${{ inputs.github_token }}"
-        export VAR=$(echo "::add-mask::$GITHUB_USERNAME")
-        echo $VAR
+        INP_SECRET=$(jq -r '.inputs.github_token' $GITHUB_EVENT_PATH)
+        echo $INP_SECRET
       env:
         GITHUB_USERNAME: ${{ inputs.github_username || 'xx' }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
